@@ -22,7 +22,7 @@ def paste(image, text, template=TEMPLATE):
 	font = ImageFont.truetype('FS_JoeyPro-MediumRegular.otf', 60)
 
 	text_w, text_h = draw.textsize(text, font=font)
-	draw.text(((1.13 * template_w - text_w) // 2, int(0.86 * template_h)), text, (0, 0, 0), font=font)
+	draw.text(((1.12 * template_w - text_w) // 2, int(0.87 * template_h)), text, font=font, fill='#ed2c2d')
 
 	canvas.save(image[:-4]+'.png')
 

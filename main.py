@@ -35,6 +35,7 @@ while True:
 				paste(image[-1], i[1])
 				image[-1] = image[-1][:-4] + '.png'
 
+			print(i[1])
 			send(i[0], i[1], image)
 
 	sleep(1)
