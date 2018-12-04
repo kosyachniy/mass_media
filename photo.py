@@ -58,4 +58,4 @@ def paste(image, text, style=TEMPLATE):
 
 
 if __name__ == '__main__':
-	paste('kotek.jpg', 'рандомная новость')
+	paste('re.jpg', 'Рандомный заголовок!')

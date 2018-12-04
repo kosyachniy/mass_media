@@ -14,7 +14,7 @@ while True:
 			if len(i[2]):
 				image = []
 				for url in i[2]:
-					image.append(url.split('/')[-1].split('.')[0])
+					image.append(url.split('/')[-1].split('.')[0] + '.jpg')
 
 					with open('data/' + image[-1], 'wb') as file:
 						file.write(requests.get(url).content)
