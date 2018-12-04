@@ -1,4 +1,4 @@
-from func.vk_user import *
+from func.vk_group import *
 from photo import paste
 
 import time

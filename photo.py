@@ -1,4 +1,4 @@
-from PIL import Image, ImageFont, ImageDraw 
+from PIL import Image, ImageFont, ImageDraw
 
 
 def mass_media_old(template, background, text, width, height):
@@ -34,8 +34,8 @@ PROCESS = (mass_media_old, instagram, )
 
 
 def paste(image, text, style=TEMPLATE):
-	template = Image.open(f'templates/{style}.png', 'r')
-	background = Image.open(f'data/{image}', 'r')
+	template = Image.open('templates/{}.png'.format(style), 'r') # f'templates/{style}.png'
+	background = Image.open('data/{}'.format(image), 'r') # f'data/{image}'
 
 	tmp_width, tmp_height = template.size
 	bck_width, bck_height = background.size
