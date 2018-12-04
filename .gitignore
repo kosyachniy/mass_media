@@ -1,4 +1,4 @@
-data/
+**/__pycache__/
 vk_config.v2.json
+
 keys.json
-**/__pycache__
