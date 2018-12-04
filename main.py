@@ -1,41 +1,27 @@
 from func.vk_user import *
-from time import sleep
 from photo import paste
 
-'''
-def parse(text):
-	text = text.replace('мы', 'они')
+import time
 
-	return text
-'''
-
-def max_size(lis):
-	q = set(lis.keys())
-	ma = 0
-	for t in q:
-		if 'photo_' in t and int(t[6:]) > ma:
-			ma = int(t[6:])
-	return lis['photo_' + str(ma)]
 
 while True:
 	try:
 		new_message = read()
 	except:
-		sleep(5)
+		time.sleep(5)
 	else:
 		for i in new_message:
-			image = []
-			for j in i[2]:
-				url = max_size(j['photo'])
-				image.append('data/%d-%d.jpg' % (j['photo']['owner_id'], j['photo']['id']))
+			if len(i[2]):
+				image = []
+				for url in i[2]:
+					image.append(url.split('/')[-1].split('.')[0])
 
-				with open(image[-1], 'wb') as file:
-					file.write(requests.get(url).content)
+					with open('data/' + image[-1], 'wb') as file:
+						file.write(requests.get(url).content)
 
-				paste(image[-1], i[1])
-				image[-1] = image[-1][:-4] + '.png'
+					image[-1] = paste(image[-1], i[1])
 
-			print(i[1])
-			send(i[0], i[1], image)
+				print(i[1])
+				send(i[0], i[1], image)
 
-	sleep(1)
+	time.sleep(1)

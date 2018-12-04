@@ -28,8 +28,10 @@ def paste(image, text, style=TEMPLATE):
 
 	canvas = PROCESS[style-1](template, background, text, canvas, width, height)
 
-	name = image.rfind('.')
-	canvas.save('results/' + image[:name] + '.png')
+	name = 'results/' + image[:image.rfind('.')] + '.png'
+	canvas.save(name)
+
+	return name
 
 
 if __name__ == '__main__':
