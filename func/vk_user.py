@@ -8,8 +8,7 @@ import requests
 with open('keys.json', 'r') as file:
 	data = json.loads(file.read())['vk']
 
-	vk = vk_api.VkApi(login=data['login'], password=data['password'])
-	vk.auth()
+	vk = vk_api.VkApi(token=data['token'])
 
 
 def max_size(lis, name='photo'):
@@ -54,7 +53,7 @@ def send(user, cont, img=[]):
 def read():
 	messages = []
 	for i in vk.method('messages.getConversations')['items']:
-		if 'unread_count' in i['conversation']:
+		if 'unanswered' in i['conversation']: # 'unread_count'
 			messages.append((
 				i['conversation']['peer']['id'],
 				i['last_message']['text'],
