@@ -31,7 +31,15 @@ def send(user, cont, img=[]):
 
 	return vk.method('messages.send', {'user_id': user, 'message': cont, 'attachment': ','.join(img)})
 
-read = lambda: [[i['user_id'], i['body'], i['attachments'] if 'attachments' in i else []] for i in vk.method('messages.get')['items'] if not i['read_state']][::-1]
+# read = lambda: [[i['user_id'], i['body'], i['attachments'] if 'attachments' in i else []] for i in vk.method('messages.get')['items'] if not i['read_state']][::-1]
+
+def read():
+	messages = []
+	for i in vk.method('messages.getConversations')['items']:
+		print(i)
+		if 'unanswered' in i['conversation']:
+			messages.append((i['conversation']['peer']['id'], i['last_message']['text']))
+	return messages
 
 dial = lambda: [i['message']['user_id'] for i in vk.method('messages.getDialogs')['items']]
 
