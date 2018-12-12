@@ -19,9 +19,13 @@ while True:
 					with open('data/' + image[-1], 'wb') as file:
 						file.write(requests.get(url).content)
 
-					image[-1] = paste(image[-1], i[1])
+					image[-1] = paste(image[-1], i[1], 3 if '#' in i[1] else 2)
 
 				print(i[1])
-				send(i[0], i[1], image)
+				try:
+					send(i[0], '', image)
+				except:
+					print('Error!')
+					time.sleep(1)
 
 	time.sleep(1)

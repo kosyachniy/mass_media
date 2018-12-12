@@ -29,8 +29,45 @@ def instagram(template, background, text, width, height):
 
 	return background
 
-TEMPLATE = 2
-PROCESS = (mass_media_old, instagram, )
+def mass_media_wylsa(template, background, text, width, height):
+	background.paste(template, (0, 0), template)
+
+	draw = ImageDraw.Draw(background)
+	font = ImageFont.truetype('fonts/Roboto Medium.ttf', 62)
+
+	# Тег
+
+	first, last = text.find('#'), text.rfind('#')
+
+	tag = text[first+1:] if first == last else text[first+1:last]
+	tag = tag.title().strip()
+
+	text_w, text_h = draw.textsize(tag, font=font)
+	draw.text((157, height - 362), tag, font=font, fill='#fff')
+
+
+	# Время
+
+	if first != last:
+		tim = text[last+1:].lower().strip()
+
+		font = ImageFont.truetype('Arial', 48)
+		draw.text((202 + text_w, height - 348), '•', font=font, fill='#fff')
+
+		font = ImageFont.truetype('fonts/Roboto Normal.ttf', 55)
+		draw.text((242 + text_w, height - 355), tim, font=font, fill='#fff')
+
+	# Основной заголовок
+
+	font = ImageFont.truetype('fonts/Roboto Medium.ttf', 84)
+
+	text_w, text_h = draw.textsize(text[:first], font=font)
+	draw.text((157, height - 249), text[:first].strip(), font=font, fill='#fff')
+
+	return background
+
+TEMPLATE = 3
+PROCESS = (mass_media_old, instagram, mass_media_wylsa)
 
 
 def paste(image, text, style=TEMPLATE):
@@ -58,4 +95,4 @@ def paste(image, text, style=TEMPLATE):
 
 
 if __name__ == '__main__':
-	paste('re.jpg', 'Рандомный заголовок!')
+	paste('re.jpg', 'Рандомный заголовок! #Мероприятия #11 декабря')
