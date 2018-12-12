@@ -45,13 +45,12 @@ def mass_media_wylsa(template, background, text, width, height):
 	text_w, text_h = draw.textsize(tag, font=font)
 	draw.text((157, height - 362), tag, font=font, fill='#fff')
 
-
 	# Время
 
 	if first != last:
 		tim = text[last+1:].lower().strip()
 
-		font = ImageFont.truetype('Arial', 48)
+		font = ImageFont.truetype('fonts/Arial.ttf', 48)
 		draw.text((202 + text_w, height - 348), '•', font=font, fill='#fff')
 
 		font = ImageFont.truetype('fonts/Roboto Normal.ttf', 55)
