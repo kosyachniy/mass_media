@@ -8,9 +8,11 @@ def mass_media_old(template, background, text, width, height):
 	canvas.paste(background, (int(width * 0.1), 0))
 	canvas.paste(template, (0, 0), template)
 
-	draw = ImageDraw.Draw(canvas)
-	font = ImageFont.truetype('fonts/FS Joey Pro.otf', 60)
+	# Заголовок
 
+	draw = ImageDraw.Draw(canvas)
+
+	font = ImageFont.truetype('fonts/FS Joey Pro.otf', 60)
 	text_w, text_h = draw.textsize(text, font=font)
 	draw.text(((1.12 * width - text_w) // 2, int(0.87 * height)), text, font=font, fill='#ed2c2d')
 
@@ -21,9 +23,11 @@ def instagram(template, background, text, width, height):
 
 	background.paste(template, (0, 0), template)
 
-	draw = ImageDraw.Draw(background)
-	font = ImageFont.truetype('fonts/GOST Type A.ttf', int(0.092 * height))
+	# Заголовок
 
+	draw = ImageDraw.Draw(background)
+
+	font = ImageFont.truetype('fonts/GOST Type A.ttf', int(0.092 * height))
 	text_w, text_h = draw.textsize(text, font=font)
 	draw.text(((width - text_w) // 2, int(0.906 * height)), text, font=font, fill='#fff')
 
@@ -33,35 +37,34 @@ def mass_media_wylsa(template, background, text, width, height):
 	background.paste(template, (0, 0), template)
 
 	draw = ImageDraw.Draw(background)
-	font = ImageFont.truetype('fonts/Roboto Medium.ttf', 62)
 
-	# Тег
+	# Категория
 
 	first, last = text.find('#'), text.rfind('#')
 
 	tag = text[first+1:] if first == last else text[first+1:last]
 	tag = tag.title().strip()
 
+	font = ImageFont.truetype('fonts/Roboto Medium.ttf', 72)
 	text_w, text_h = draw.textsize(tag, font=font)
-	draw.text((157, height - 362), tag, font=font, fill='#fff')
+	draw.text((58 + 157, height - 383), tag, font=font, fill='#fff')
 
 	# Время
 
 	if first != last:
 		tim = text[last+1:].lower().strip()
 
-		font = ImageFont.truetype('fonts/Arial.ttf', 48)
-		draw.text((202 + text_w, height - 348), '•', font=font, fill='#fff')
+		font = ImageFont.truetype('fonts/Arial.ttf', 58)
+		draw.text((58 + 194 + text_w, height - 369), '•', font=font, fill='#fff')
 
-		font = ImageFont.truetype('fonts/Roboto Normal.ttf', 55)
-		draw.text((242 + text_w, height - 355), tim, font=font, fill='#fff')
+		font = ImageFont.truetype('fonts/Roboto Normal.ttf', 65)
+		draw.text((58 + 246 + text_w, height - 377), tim, font=font, fill='#fff')
 
-	# Основной заголовок
+	# Заголовок
 
-	font = ImageFont.truetype('fonts/Roboto Medium.ttf', 84)
-
+	font = ImageFont.truetype('fonts/Roboto Medium.ttf', 95)
 	text_w, text_h = draw.textsize(text[:first], font=font)
-	draw.text((157, height - 249), text[:first].strip(), font=font, fill='#fff')
+	draw.text((58 + 157, height - 260), text[:first].strip(), font=font, fill='#fff')
 
 	return background
 
