@@ -1,5 +1,7 @@
 from PIL import Image, ImageFont, ImageDraw
 
+import sys
+
 
 def mass_media_old(template, background, text, width, height):
 	canvas = Image.new('RGBA', template.size, (255, 255, 255, 255))
@@ -68,11 +70,12 @@ def mass_media_wylsa(template, background, text, width, height):
 
 	return background
 
-TEMPLATE = 3
 PROCESS = (mass_media_old, instagram, mass_media_wylsa)
 
 
-def paste(image, text, style=TEMPLATE):
+def paste(image='re.jpg', text='Рандомный заголовок! #Мероприятия #11 декабря', style=3):
+	style = int(style)
+
 	template = Image.open('templates/{}.png'.format(style), 'r') # f'templates/{style}.png'
 	background = Image.open('data/{}'.format(image), 'r') # f'data/{image}'
 
@@ -97,4 +100,4 @@ def paste(image, text, style=TEMPLATE):
 
 
 if __name__ == '__main__':
-	paste('re.jpg', 'Рандомный заголовок! #Мероприятия #11 декабря')
+	paste(*sys.argv[1:])

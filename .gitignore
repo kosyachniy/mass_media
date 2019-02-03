@@ -3,5 +3,5 @@ vk_config.v2.json
 
 keys.json
 
-data/
-results/
+# data/
+# results/
