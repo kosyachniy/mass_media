@@ -1,14 +1,19 @@
-from func.vk_group import *
-from photo import paste
-
 import time
+
+import requests
+
+from func.vk_group import read, send
+from photo import paste
 
 
 while True:
 	try:
 		new_message = read()
+
 	except:
+		print('Ошибка чтения!')
 		time.sleep(5)
+
 	else:
 		for i in new_message:
 			if len(i[2]):
@@ -22,10 +27,12 @@ while True:
 					image[-1] = paste(image[-1], i[1], 3 if '#' in i[1] else 2)
 
 				print(i[1])
+
 				try:
 					send(i[0], '', image)
+
 				except:
-					print('Error!')
+					print('Ошибка отправки!')
 					time.sleep(1)
 
 	time.sleep(1)

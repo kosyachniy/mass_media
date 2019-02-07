@@ -1,6 +1,6 @@
-from PIL import Image, ImageFont, ImageDraw
-
 import sys
+
+from PIL import Image, ImageFont, ImageDraw
 
 
 def mass_media_old(template, background, text, width, height):
@@ -49,7 +49,7 @@ def mass_media_wylsa(template, background, text, width, height):
 
 	font = ImageFont.truetype('fonts/Roboto Medium.ttf', 72)
 	text_w, text_h = draw.textsize(tag, font=font)
-	draw.text((58 + 157, height - 383), tag, font=font, fill='#fff')
+	draw.text((157, height - 383), tag, font=font, fill='#fff')
 
 	# Время
 
@@ -57,18 +57,23 @@ def mass_media_wylsa(template, background, text, width, height):
 		tim = text[last+1:].lower().strip()
 
 		font = ImageFont.truetype('fonts/Arial.ttf', 58)
-		draw.text((58 + 194 + text_w, height - 369), '•', font=font, fill='#fff')
+		draw.text((194 + text_w, height - 369), '•', font=font, fill='#fff')
 
 		font = ImageFont.truetype('fonts/Roboto Normal.ttf', 65)
-		draw.text((58 + 246 + text_w, height - 377), tim, font=font, fill='#fff')
+		draw.text((246 + text_w, height - 377), tim, font=font, fill='#fff')
 
 	# Заголовок
 
 	font = ImageFont.truetype('fonts/Roboto Medium.ttf', 95)
 	text_w, text_h = draw.textsize(text[:first], font=font)
-	draw.text((58 + 157, height - 260), text[:first].strip(), font=font, fill='#fff')
+	draw.text((157, height - 260), text[:first].strip(), font=font, fill='#fff')
 
-	return background
+	# Рамка
+
+	canvas = Image.new('RGBA', (template.size[0] + 160, template.size[1] + 80), (255, 255, 255, 255))
+	canvas.paste(background, (80, 40))
+
+	return canvas
 
 PROCESS = (mass_media_old, instagram, mass_media_wylsa)
 

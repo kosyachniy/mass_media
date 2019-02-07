@@ -8,7 +8,7 @@ import requests
 with open('keys.json', 'r') as file:
 	data = json.loads(file.read())['vk']
 
-	vk = vk_api.VkApi(token=data['token'])
+vk = vk_api.VkApi(token=data['token'])
 
 
 def max_size(lis, name='photo'):
@@ -31,7 +31,7 @@ def max_size(lis, name='photo'):
 
 
 # Отправить сообщение
-def send(user, cont, img=[]):
+def send(user, cont, img=[], keyboard=None):
 	# Изображения
 	for i in range(len(img)):
 		if img[i][0:5] != 'photo':
@@ -52,10 +52,32 @@ def send(user, cont, img=[]):
 			img[i] = 'photo{}_{}'.format(photo[0]['owner_id'], photo[0]['id'])
 
 	req = {
+		'random_id': int(time.time() * 1000000),
 		'user_id': user,
 		'message': cont,
 		'attachment': ','.join(img),
 	}
+
+	# Клавиатура
+	if keyboard:
+		buttons = []
+		for j in keyboard:
+			line = []
+			for i in j:
+				line.append({
+					'action': {
+						'type': 'text',
+						'payload': '{\"button\": \"1\"}',
+						'label': i,
+					},
+					'color': 'default',
+				})
+			buttons.append(line)
+
+		req['keyboard'] = json.dumps({
+			'one_time': False,
+			'buttons': buttons,
+		}, ensure_ascii=False)
 
 	return vk.method('messages.send', req)
 
