@@ -11,3 +11,16 @@
 Запуск из консоли: ``` python photo.py имя_файла.расширение Текст\ текст №шаблона ```
 
 Запуск ВК бота: ``` python main.py ```
+
+---
+
+```
+git clone https://github.com/kosyachniy/mass_media
+
+pip3 install -r requirements.txt
+
+nano keys.json
+{"vk": {"token": ""}}
+
+python3 main.py
+```
