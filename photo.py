@@ -75,30 +75,95 @@ def mass_media_wylsa(template, background, text, width, height):
 
 	return canvas
 
-PROCESS = (mass_media_old, instagram, mass_media_wylsa)
+def ssc_posts(template, background, text, width, height):
+	texts = text.strip().split('#')
+
+	draw = ImageDraw.Draw(template)
+	font = ImageFont.truetype('fonts/Segoe.ttf', 103)
+
+	# Текст
+
+	text_main = texts[0]
+
+	if '\n' not in text_main:
+		text_len = len(text_main)
+		if text_len > 20:
+			text_main = text_main.split(' ')
+
+			mid = 0
+			count = 0
+			for i, el in enumerate(text_main):
+				count += len(el) + 1
+
+				if count > text_len // 2:
+					mid = i + 1
+					break
+
+			text_main = ' '.join(text_main[:mid]) + '\n' + ' '.join(text_main[mid:])
+		
+		else:
+			text_main = '\n' + text_main
+
+	for i, el in enumerate(text_main.split('\n')):
+		el = el.strip()
+
+		text_w, text_h = draw.textsize(el, font=font)
+		center = (2500 - 130 - 780 - text_w) // 2
+		draw.text((780 + center, 50 + i * 125), el, font=font, fill='#505050')
+	
+	# Дополнительно
+
+	text_sec = texts[1].strip()
+
+	if len(texts) > 1:
+		text_w, text_h = draw.textsize(text_sec, font=font)
+		center = (2500 - 130 - 780 - text_w) // 2
+		draw.text((780 + center, 355), text_sec, font=font, fill='#0084bd')
+
+	#
+
+	return template
+
+def ssc_forms(template, background, text, width, height):
+	pass
+
+def curators():
+	pass
+
+PROCESS = (mass_media_old, instagram, mass_media_wylsa, ssc_posts, ssc_forms, curators)
 
 
 def paste(image='re.jpg', text='Рандомный заголовок! #Мероприятия #11 декабря', style=3):
 	style = int(style)
 
 	template = Image.open('templates/{}.png'.format(style), 'r') # f'templates/{style}.png'
-	background = Image.open('data/{}'.format(image), 'r') # f'data/{image}'
 
 	tmp_width, tmp_height = template.size
-	bck_width, bck_height = background.size
 	tmp_ratio = tmp_width / tmp_height
-	bck_ratio = bck_width / bck_height
 
-	if tmp_ratio > bck_ratio:
-		margin = (bck_height - bck_width / tmp_ratio) // 2
-		background = background.resize(template.size, Image.ANTIALIAS, (0, margin, bck_width, bck_height-margin))
-	elif tmp_ratio < bck_ratio:
-		margin = (bck_width - bck_height * tmp_ratio) // 2
-		background = background.resize(template.size, Image.ANTIALIAS, (margin, 0, bck_width-margin, bck_height))
+	if image:
+		background = Image.open('data/{}'.format(image), 'r') # f'data/{image}'
+
+		bck_width, bck_height = background.size
+		bck_ratio = bck_width / bck_height
+
+		if tmp_ratio > bck_ratio:
+			margin = (bck_height - bck_width / tmp_ratio) // 2
+			background = background.resize(template.size, Image.ANTIALIAS, (0, margin, bck_width, bck_height-margin))
+		elif tmp_ratio < bck_ratio:
+			margin = (bck_width - bck_height * tmp_ratio) // 2
+			background = background.resize(template.size, Image.ANTIALIAS, (margin, 0, bck_width-margin, bck_height))
+	
+	else:
+		background = None
 
 	canvas = PROCESS[style-1](template, background, text, tmp_width, tmp_height)
 
-	name = 'results/' + image[:image.rfind('.')] + '.png'
+	if image:
+		name = 'results/' + image[:image.rfind('.')] + '.png'
+	else:
+		name = 'results/re.png'
+
 	canvas.save(name)
 
 	return name

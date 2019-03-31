@@ -95,10 +95,16 @@ def read():
 
 # Предшествующее значящее сообщение
 def prev(user):
+	t = True
+
 	for i in vk.method('messages.getHistory', {'user_id': user})['items']:
-		if 'attachments' in i and any(j['type'] == 'photo' for j in i['attachments']):
+		if i['from_id'] == user:
+			if t:
+				t = False
+				continue
+
 			return (
 				i['from_id'],
 				i['text'],
-				[max_size(j['photo']) for j in i['attachments'] if j['type'] == 'photo'],
+				[max_size(j['photo']) for j in i['attachments'] if j['type'] == 'photo'] if 'attachments' in i else [],
 			)

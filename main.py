@@ -6,7 +6,8 @@ from func.vk_group import read, send, prev
 from photo import paste
 
 
-RESOURCES = ['Instagram', 'СМИ', 'СНО', 'Кураторы']
+RESOURCES = ('Instagram', 'СМИ', 'СНО пост', 'СНО форма', 'Кураторы')
+DEMAND = (True, True, False, False, True)
 
 
 while True:
@@ -22,16 +23,35 @@ while True:
 			if i[1] in RESOURCES:
 				print('{:50}'.format(i[1]), end='	')
 
+				ind = RESOURCES.index(i[1])
 				res = prev(i[0])
+
 				if res:
+					# Нет обязательной картинки
+					if DEMAND[ind]:
+						if not len(res[2]):
+							send(i[0], 'В последнем сообщении нет картинки!')
+							continue
+					
+					# Картинка не нужна
+					else:
+						res = list(res)
+						res[2] = [None]
+
+					# Обработка
+
 					image = []
 					for url in res[2]:
-						image.append(url.split('/')[-1].split('.')[0] + '.jpg')
+						if url:
+							image.append(url.split('/')[-1].split('.')[0] + '.jpg')
 
-						with open('data/' + image[-1], 'wb') as file:
-							file.write(requests.get(url).content)
+							with open('data/' + image[-1], 'wb') as file:
+								file.write(requests.get(url).content)
+						
+						else:
+							image.append(None)
 
-						image[-1] = paste(image[-1], res[1], RESOURCES.index(i[1])+2)
+						image[-1] = paste(image[-1], res[1], ind+2)
 
 					try:
 						send(i[0], '', image)
@@ -42,9 +62,9 @@ while True:
 						time.sleep(1)
 				
 				else:
-					send(i[0], 'Не вижу картинок')
+					send(i[0], 'Чё та не так')
 			
 			else:
-				send(i[0], 'Куда?', keyboard=[['СМИ', 'Instagram'], ['СНО', 'Кураторы']])
+				send(i[0], 'Куда?', keyboard=[['СМИ', 'Instagram'], ['СНО пост', 'СНО форма'], ['Кураторы']])
 
 	time.sleep(1)
