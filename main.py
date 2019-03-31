@@ -20,11 +20,30 @@ while True:
 
 	else:
 		for i in new_message:
-			if i[1] in RESOURCES:
+			cond_post = 'пост сно' in i[1].lower()
+			cond_form = 'форма сно' in i[1].lower()
+			cond = cond_post or cond_form
+
+			if i[1] in RESOURCES or cond:
 				print('{:50}'.format(i[1]), end='	')
 
-				ind = RESOURCES.index(i[1])
-				res = prev(i[0])
+				if cond:
+					res = list(i)
+
+					if cond_post:
+						ind = 2
+						st = res[1].lower().find('пост сно')
+						le = 8
+					else:
+						ind = 3
+						st = res[1].lower().find('форма сно')
+						le = 9
+
+					res[1] = res[1][st+le:]
+
+				else:
+					ind = RESOURCES.index(i[1])
+					res = prev(i[0])
 
 				if res:
 					# Нет обязательной картинки

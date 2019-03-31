@@ -49,6 +49,8 @@ def send(user, cont, img=[], keyboard=None):
 
 			photo = vk.method('photos.saveMessagesPhoto', {'server': result['server'], 'photo': result['photo'], 'hash': result['hash']})
 
+			cont += max_size(photo[0]) + '\n'
+
 			img[i] = 'photo{}_{}'.format(photo[0]['owner_id'], photo[0]['id'])
 
 	req = {
@@ -93,7 +95,7 @@ def read():
 			))
 	return messages
 
-# Предшествующее значящее сообщение
+# Предшествующее значащее сообщение
 def prev(user):
 	t = True
 
