@@ -92,3 +92,13 @@ def read():
 				[max_size(j['photo']) for j in i['last_message']['attachments'] if j['type'] == 'photo'] if 'attachments' in i['last_message'] else [],
 			))
 	return messages
+
+# Предшествующее значящее сообщение
+def prev(user):
+	for i in vk.method('messages.getHistory', {'user_id': user})['items']:
+		if 'attachments' in i and any(j['type'] == 'photo' for j in i['attachments']):
+			return (
+				i['from_id'],
+				i['text'],
+				[max_size(j['photo']) for j in i['attachments'] if j['type'] == 'photo'],
+			)

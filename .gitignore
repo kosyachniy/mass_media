@@ -1,7 +1,12 @@
 # Кэш
 
+.DS_Store
 __pycache__/
 vk_config.v2.json
+
+# Виртуальное окружение
+
+env/
 
 # Ключи
 

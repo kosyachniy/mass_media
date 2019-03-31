@@ -2,8 +2,11 @@ import time
 
 import requests
 
-from func.vk_group import read, send
+from func.vk_group import read, send, prev
 from photo import paste
+
+
+RESOURCES = ['Instagram', 'СМИ', 'СНО', 'Кураторы']
 
 
 while True:
@@ -16,23 +19,32 @@ while True:
 
 	else:
 		for i in new_message:
-			if len(i[2]):
-				image = []
-				for url in i[2]:
-					image.append(url.split('/')[-1].split('.')[0] + '.jpg')
+			if i[1] in RESOURCES:
+				print('{:50}'.format(i[1]), end='	')
 
-					with open('data/' + image[-1], 'wb') as file:
-						file.write(requests.get(url).content)
+				res = prev(i[0])
+				if res:
+					image = []
+					for url in res[2]:
+						image.append(url.split('/')[-1].split('.')[0] + '.jpg')
 
-					image[-1] = paste(image[-1], i[1], 3 if '#' in i[1] else 2)
+						with open('data/' + image[-1], 'wb') as file:
+							file.write(requests.get(url).content)
 
-				print(i[1])
+						image[-1] = paste(image[-1], res[1], RESOURCES.index(i[1])+2)
 
-				try:
-					send(i[0], '', image)
+					try:
+						send(i[0], '', image)
+						print('✔')
 
-				except:
-					print('Ошибка отправки!')
-					time.sleep(1)
+					except:
+						print('❌')
+						time.sleep(1)
+				
+				else:
+					send(i[0], 'Не вижу картинок')
+			
+			else:
+				send(i[0], 'Куда?', keyboard=[['СМИ', 'Instagram'], ['СНО', 'Кураторы']])
 
 	time.sleep(1)
