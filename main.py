@@ -6,8 +6,8 @@ from func.vk_group import read, send, prev
 from photo import paste
 
 
-RESOURCES = ('Instagram', 'СМИ', 'СНО пост', 'СНО форма', 'Кураторы')
-DEMAND = (True, True, False, False, True)
+RESOURCES = ('Instagram', 'СМИ', 'СНО пост', 'СНО форма', 'Кураторы', 'Мистер ПМ-ПУ')
+DEMAND = (True, True, False, False, True, True)
 
 
 while True:
@@ -84,6 +84,6 @@ while True:
 					send(i[0], 'Чё та не так')
 			
 			else:
-				send(i[0], 'Куда?', keyboard=[['СМИ', 'Instagram'], ['СНО пост', 'СНО форма'], ['Кураторы']])
+				send(i[0], 'Куда?', keyboard=[['СМИ', 'Instagram'], ['СНО пост', 'СНО форма'], ['Кураторы', 'Мистер ПМ-ПУ']])
 
 	time.sleep(1)

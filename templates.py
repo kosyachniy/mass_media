@@ -188,4 +188,21 @@ def curators(template, background, text, width, height):
 
 	return canvas
 
-PROCESS = (mass_media_old, instagram, mass_media_wylsa, ssc_posts, ssc_forms, curators)
+def mister(template, background, text, width, height):
+	canvas = Image.new('RGBA', template.size, (255, 255, 255, 255))
+	background = background.resize(template.size)
+
+	canvas.paste(background)
+	canvas = Image.alpha_composite(canvas, template)
+
+	# Заголовок
+
+	draw = ImageDraw.Draw(canvas)
+
+	font = ImageFont.truetype('fonts/PF Beau Sans Pro Light.ttf', int(0.075 * height))
+	text_w, text_h = draw.textsize(text, font=font)
+	draw.text(((width - text_w) // 2, int(0.865 * height)), text, font=font, fill='#fff')
+
+	return canvas
+
+PROCESS = (mass_media_old, instagram, mass_media_wylsa, ssc_posts, ssc_forms, curators, mister)
