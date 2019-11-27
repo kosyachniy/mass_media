@@ -189,19 +189,24 @@ def curators(template, background, text, width, height):
 	return canvas
 
 def mister(template, background, text, width, height):
-	canvas = Image.new('RGBA', template.size, (255, 255, 255, 255))
-	background = background.resize(template.size)
+	print(template.size, background.size)
 
+	width = template.size[0]
+	height = int(background.size[1] * (template.size[0] / background.size[0]))
+
+	print(width, height)
+
+	canvas = Image.new('RGBA', (width, height), (255, 255, 255, 255))
+
+	background = background.resize((width, height))
 	canvas.paste(background)
-	canvas = Image.alpha_composite(canvas, template)
 
-	# Заголовок
+	temp = Image.new('RGBA', (width, height), (255, 255, 255, 0))
+	temp.paste(template, (0, height - template.size[1]))
 
-	draw = ImageDraw.Draw(canvas)
-
-	font = ImageFont.truetype('fonts/PF Beau Sans Pro Light.ttf', int(0.075 * height))
-	text_w, text_h = draw.textsize(text, font=font)
-	draw.text(((width - text_w) // 2, int(0.865 * height)), text, font=font, fill='#fff')
+	canvas = Image.alpha_composite(canvas, temp)
+	# background.paste()
+	# canvas.paste(background)
 
 	return canvas
 

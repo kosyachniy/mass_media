@@ -16,16 +16,17 @@ def paste(image='re.jpg', text='Рандомный заголовок! #Меро
 	if image:
 		background = Image.open('data/{}'.format(image), 'r') # f'data/{image}'
 
-		bck_width, bck_height = background.size
-		bck_ratio = bck_width / bck_height
+		if style not in (7,): # ! Не требуется обрезать картинку
+			bck_width, bck_height = background.size
+			bck_ratio = bck_width / bck_height
 
-		if tmp_ratio > bck_ratio:
-			margin = (bck_height - bck_width / tmp_ratio) // 2
-			background = background.resize(template.size, Image.ANTIALIAS, (0, margin, bck_width, bck_height-margin))
-		elif tmp_ratio < bck_ratio:
-			margin = (bck_width - bck_height * tmp_ratio) // 2
-			background = background.resize(template.size, Image.ANTIALIAS, (margin, 0, bck_width-margin, bck_height))
-	
+			if tmp_ratio > bck_ratio:
+				margin = (bck_height - bck_width / tmp_ratio) // 2
+				background = background.resize(template.size, Image.ANTIALIAS, (0, margin, bck_width, bck_height-margin))
+			elif tmp_ratio < bck_ratio:
+				margin = (bck_width - bck_height * tmp_ratio) // 2
+				background = background.resize(template.size, Image.ANTIALIAS, (margin, 0, bck_width-margin, bck_height))
+
 	else:
 		background = None
 

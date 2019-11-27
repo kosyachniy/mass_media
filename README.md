@@ -24,3 +24,7 @@ nano keys.json
 
 python3 main.py
 ```
+
+Настройка:
+1. Папка с шрифтами ``` fonts/ ```
+2. Файл с ключами ``` keys.json ```
