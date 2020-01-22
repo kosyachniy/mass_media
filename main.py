@@ -51,7 +51,7 @@ while True:
 						if not len(res[2]):
 							send(i[0], 'В последнем сообщении нет картинки!')
 							continue
-					
+
 					# Картинка не нужна
 					else:
 						res = list(res)
@@ -66,7 +66,7 @@ while True:
 
 							with open('data/' + image[-1], 'wb') as file:
 								file.write(requests.get(url).content)
-						
+
 						else:
 							image.append(None)
 
@@ -79,11 +79,14 @@ while True:
 					except:
 						print('❌')
 						time.sleep(1)
-				
+
 				else:
 					send(i[0], 'Чё та не так')
-			
+
 			else:
-				send(i[0], 'Куда?', keyboard=[['СМИ', 'Instagram'], ['СНО пост', 'СНО форма'], ['Кураторы', 'Мистер ПМ-ПУ']])
+				try:
+					send(i[0], 'Куда?', keyboard=[['СМИ', 'Instagram'], ['СНО пост', 'СНО форма'], ['Кураторы', 'Мистер ПМ-ПУ']])
+				except:
+					pass
 
 	time.sleep(1)
